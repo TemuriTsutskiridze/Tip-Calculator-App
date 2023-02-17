@@ -1,4 +1,5 @@
-* {
+*:not(input[type=number])
+{
     transition: 1s;
 }
 
@@ -18,7 +19,7 @@ body {
 .calculator {
     background-color: white;
     box-shadow: 0px 32px 43px rgba(79, 166, 175, 0.200735);
-    border-radius: 25px 25px 0px 0px;
+    border-radius: 25px;
     width: 100%;
     max-width: 920px;
     height: auto;
@@ -36,6 +37,10 @@ body {
     font-size: 16px;
     line-height: 24px;
     color: #5E7A7D;
+}
+
+.tip_text {
+    margin-top: 32px;
 }
 
 .error {
@@ -100,8 +105,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-.tip_info {
-    margin-top: 32px;
+.bill_info {
     display: flex;
     justify-content: space-between;
 }

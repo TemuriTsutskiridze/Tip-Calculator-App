@@ -21,27 +21,27 @@
     <div class="calculator">
         <div class="input_part">
             <div class="bill">
-                <h1 class = "bill_txt">Bill</h1>
-                <input class = "input_bill" type="number" id = "bill" placeholder="0">
+                <div class="bill_info">
+                    <h1 class = "bill_txt">Bill</h1>
+                    <p class = "error" id = "bill_error">Can't be zero</p>
+                </div>
+                <input class = "input_bill" type="number" id = "bill" value = "" placeholder="0">
             </div>
             <div class="tip">
-                <div class="tip_info">
                     <p class="tip_text">Select Tip %</p>
-                    <p class = "error">Can't be zero</p>
-                </div>
                 <div class="button_grid">
-                    <button class="tip_button">5%</button>
-                    <button class="tip_button">10%</button>
-                    <button class="tip_button">15%</button>
-                    <button class="tip_button">20%</button>
-                    <button class="tip_button">50%</button>
-                    <input type="number" class="custom" placeholder="Custom">
+                    <button name = "tipPercentage" class="tip_button" id = "tip_5" value = "5" type = "submit">5%</button>
+                    <button name = "tipPercentage" class="tip_button" id = "tip_10" value = "10" type = "submit">10%</button>
+                    <button name = "tipPercentage" class="tip_button" id = "tip_15" value = "15" type = "submit">15%</button>
+                    <button name = "tipPercentage" class="tip_button" id = "tip_20" value = "20" type = "submit">20%</button>
+                    <button name = "tipPercentage" class="tip_button" id = "tip_50" value = "50" type = "submit">50%</button>
+                    <input type="number" class="custom" id = "custom" placeholder="Custom" type = "submit">
                 </div>
             </div>
             <div class="people">
                 <div class="people_info">
                     <h1 class = "people_txt">Number of People</h1>
-                    <p class = "error">Can't be zero</p>
+                    <p class = "error" id = "people_error">Can't be zero</p>
                 </div>
                
                 <input class = "input_people" type="number" id = "people" placeholder="0">
@@ -54,17 +54,19 @@
                     <h2>Tip Amount</h2>
                     <p>/ person</p>
                 </div>
-                <h1 class="dollar">$0.00</h1>
+                <h1 class="dollar" id = "tip_amount">$0.00</h1>
             </div>
             <div class="total">
                 <div class="total_txt">
                     <h2>Total</h2>
                     <p>/ person</p>
                 </div>
-                <h1 class="dollar">$0.00</h1>
+                <h1 class="dollar" id = "total">$0.00</h1>
             </div>
-            <button class="reset">RESET</button>
+            <button class="reset" id = "reset">RESET</button>
         </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
