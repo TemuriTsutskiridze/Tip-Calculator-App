@@ -132,9 +132,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .tip_button:hover {
-    background: #9FE8DF;
-    cursor: pointer;
-    transition: 0.5s;
+    background: #9FE8DF !important;
+    cursor: pointer !important;
+    transition: 0.5s !important;
 }
 
 .custom {
