@@ -22,11 +22,14 @@ function updateCalculation() {
 
     if (bill <= 0) {
         addError(bill_error, bill_input);
-    } else {
-        removeError(bill_error, bill_input);
+    } 
+    if (people <= 0 || !Number.isInteger(people)) {
+        addError(people_error, people_input)
     }
 
     if (bill > 0 && people > 0 && Number.isInteger(people)) {
+        removeError(bill_error, bill_input);
+        removeError(people_error, people_input);
         tip_amount.textContent = `$${(bill * custom_value / 100 / people).toFixed(2)}`;
         total.textContent = `$${((bill + (bill * custom_value / 100)) / people).toFixed(2)}`;
     }
