@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 100px;
 }
 
 .logo {
@@ -129,6 +130,10 @@ input[type=number]::-webkit-outer-spin-button {
     font-family: 'Space Mono', monospace;
     transition: 0.5s;
     border: none;
+}
+
+.tip_button_active {
+    background-color: #26C2AE;
 }
 
 .tip_button:hover {

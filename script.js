@@ -1,105 +1,90 @@
-`use strict`
+"use strict"
 
-// references to HTML elements
+const bill_input = document.getElementById("bill");
+const people_input = document.getElementById("people");
+const buttons = document.querySelectorAll(".tip_button");
+const tip_amount_output = document.getElementById("tip_amount");
+const total_amount_output = document.getElementById("total");
+const custom = document.getElementById("custom");
+const bill_error = document.getElementById("bill_error");
+const people_error = document.getElementById("people_error");
+const reset = document.getElementById("reset");
 
-let bill_input = document.getElementById("bill");
-let people_input = document.getElementById("people");
-let bill_error = document.getElementById("bill_error");
-let people_error = document.getElementById("people_error");
-let reset_button = document.getElementById("reset");
-let tip_buttons = document.getElementsByClassName("tip_button");
-let tip_amount = document.getElementById("tip_amount");
-let total = document.getElementById("total");
-let custom = document.getElementById("custom");
+let bill_value = 0;
+let people_value = 0;
+let tip_value = 0;
+let total = 0;
+let tip_amount = 0;
 
-
-// functions 
-
-function updateCalculation() {
-    let bill = Number(bill_input.value);
-    let people = Number(people_input.value);
-    let custom_value = Number(custom.value);
-
-    if (bill <= 0) {
-        addError(bill_error, bill_input);
-    } 
-    if (people <= 0 || !Number.isInteger(people)) {
-        addError(people_error, people_input)
+bill_input.addEventListener("input", (event) => {
+    bill_value = Number(event.target.value);
+    if (bill_value <= 0) {
+        bill_error.style.display = "block";
+        event.target.style.border = "2px solid #E17052";
+    } else {
+        bill_error.style.display = "none";
+        event.target.style.border = "none";
     }
+    calculate();
+})
 
-    if (bill > 0 && people > 0 && Number.isInteger(people)) {
-        removeError(bill_error, bill_input);
-        removeError(people_error, people_input);
-        tip_amount.textContent = `$${(bill * custom_value / 100 / people).toFixed(2)}`;
-        total.textContent = `$${((bill + (bill * custom_value / 100)) / people).toFixed(2)}`;
+people_input.addEventListener("input", (event) => {
+    people_value = Number(event.target.value);
+    if (people_value <= 0 || people_value % 1 != 0) {
+        people_error.style.display = "block";
+        event.target.style.border = "2px solid #E17052";
+    } else {
+        people_error.style.display = "none";
+        event.target.style.border = "none";
     }
-}
+    calculate();
+})
 
-function resetForm() {
+let active_button = null;
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        active_button?.classList.remove("tip_button_active");
+        tip_value = parseInt(button.textContent);
+        button.classList.add("tip_button_active");
+        active_button = button;
+        calculate();
+    })
+})
+
+custom.addEventListener("input", (event) => {
+    if (Number(event.target.value) > 0 && Number(event.target.value) < 100) {
+        active_button?.classList.remove("tip_button_active")
+        tip_value = Number(custom.value);
+        calculate();
+    }
+})
+
+reset.addEventListener("click", () => {
     bill_input.value = "";
     bill_input.style.border = "none";
+    bill_value = 0;
     people_input.value = "";
     people_input.style.border = "none";
-    bill_error.style.display = "none";
-    people_error.style.display = "none";
-    for (let i = 0; i < tip_buttons.length; i++) {
-        tip_buttons[i].style.background = "#00474B";
-    }
+    people_value = 0;
+    tip_value = 0;
+    active_button.classList.remove("tip_button_active");
+    active_button = null;
     custom.value = "";
-    tip_amount.textContent = "$0.00";
-    total.textContent = "$0.00";
-}
+    bill_error.style.display = "none";
+    people_error.style.display = "none"
+    tip_amount_output.textContent = `$0.00`;
+    total_amount_output.textContent = `$0.00`;
+})
 
-function addError(error, input) {
-    error.style.display = "block";
-    input.style.border = "2px solid #E17052";
-}
+function calculate() {
+    tip_amount = ((bill_value * (tip_value / 100)) / people_value).toFixed(2);
+    total = ((bill_value + (bill_value * (tip_value / 100))) / people_value).toFixed(2);
 
-function removeError(error, input) {
-    error.style.display = "none";
-    input.style.border = "none";
-}
-
-
-// eventListeners 
-
-tip_buttons_array = Array.from(tip_buttons); // I have converted HTMLCollection to an actual array so that I will have access to forEach function
-var active_button = null;
-tip_buttons_array.forEach(tip_button => {
-        tip_button.addEventListener('click', function(event) {
-            let tip_button_value = event.target.value;
-            let bill = Number(bill_input.value); 
-            let people = Number(people_input.value);
-
-            if (bill > 0 && people > 0 && Number.isInteger(people))
-            {
-                if (active_button) {
-                    active_button.style.background = "#00474B";
-                }
-        
-                tip_button.style.background = "#26C2AE";
-                active_button = tip_button;
-        
-                tip_amount.textContent = `$${(bill * tip_button_value / 100 / people).toFixed(2)}`;
-                total.textContent = `$${((bill + (bill * tip_button_value / 100)) / people).toFixed(2)}`;
-            }
-    });
-});
-
-custom.addEventListener("input", () => {
-    let bill = Number(bill_input.value); 
-    let people = Number(people_input.value);
-    let custom_value = Number(custom.value);
-
-    if (bill > 0 && people > 0 && Number.isInteger(people) && (custom_value > 0 && custom_value < 100))
-    {
-        tip_amount.textContent = `$${(bill * custom_value / 100 / people).toFixed(2)}`;
-        total.textContent = `$${((bill + (bill * custom_value / 100)) / people).toFixed(2)}`;
+    if (bill_value <= 0 || people_value <= 0 || people_value % 1 != 0) {
+        tip_amount_output.textContent = `$0.00`;
+        total_amount_output.textContent = `$0.00`;
+    } else {
+        tip_amount_output.textContent = `$${tip_amount}`;
+        total_amount_output.textContent = `$${total}`;
     }
-});
-
-reset_button.addEventListener("click", resetForm);
-
-bill_input.addEventListener("input", updateCalculation);
-
-people_input.addEventListener("input", updateCalculation);
+}
